@@ -1,0 +1,114 @@
+{
+  "crystal_vectors": [
+    [
+      7.007940,
+      0,
+      0
+    ],
+    [
+      -3.503970,
+      6.069054,
+      0
+    ],
+    [
+      0,
+      0,
+      15.000000
+    ]
+  ],
+  "numberOfAtoms": 8,
+  "isMaterial3d": false,
+  "crystal_atoms": {
+    "x_positions": [
+      3.503972,
+      0.000000,
+      0.981684,
+      1.261132,
+      -2.242816,
+      -0.981684,
+      2.242818,
+      -1.261134
+    ],
+    "y_positions": [
+      2.023019,
+      4.046038,
+      6.069044,
+      2.184372,
+      3.884699,
+      6.069046,
+      3.884698,
+      2.184371
+    ],
+    "z_positions": [
+      9.031769,
+      9.031769,
+      7.464880,
+      7.464880,
+      7.464880,
+      10.598656,
+      10.598656,
+      10.598656
+    ],
+    "atom_names": [
+      "Cr",
+      "Cr",
+      "I",
+      "I",
+      "I",
+      "I",
+      "I",
+      "I"
+    ]
+  },
+  "calculationFactoryName": "quantumespresso.pw",
+  "code_name": "QE6@hpcweek",
+  "pseudo_family_name": "SSSP",
+  "element_name": "Cr2I6",
+  "spinCombinationLabels": [
+    "a",
+    "b",
+    "c",
+    "d"
+  ],
+  "noOfSuperCells": 4,
+  "similarCalcThreshold": 0.1,
+  "jijThreshold": 0.00001,
+  "spinValue": 1.5,
+  "parameters": {
+    "CONTROL": {
+      "calculation": "scf",
+      "verbosity": "high",
+      "tstress": true,
+      "tprnfor": true
+    },
+    "SYSTEM": {
+      "ecutwfc": 40,
+      "ecutrho": 320,
+      "occupations": "smearing",
+      "smearing": "cold",
+      "degauss": 0.00002
+    },
+    "ELECTRONS": {
+      "conv_thr": 0.0000001,
+      "mixing_beta": 0.3000000
+      "electron_maxstep": 500,
+    }
+  },
+  "compoundElement1": "Cr",
+  "compoundElement2": "I",
+  "nSpinValue": 2,
+  "type1_mag_value": 1.0,
+  "type2_mag_value": 0.001,
+  "kPointsDict": [
+    12,
+    12,
+    1
+  ],
+  "builder_metadata_label": "PW test",
+  "builder_metadata_description": "My AiiDA calculation of Fe with Quantum ESPRESSO",
+  "builder_metadata_options_resources_machine": 1,
+  "builder_metadata_options_max_wallclock_seconds": 604800,
+  "chosenElement": "Cr",
+  "chosenSite": 2,
+  "nearestNbrLimit": 1
+}

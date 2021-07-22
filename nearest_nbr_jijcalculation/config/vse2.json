@@ -1,0 +1,83 @@
+{
+  "crystal_vectors": [
+[3.33854531, 0, 0], [-1.66927265,2.89126505, 0], [0, 0, 18.31810032]
+  ],
+  "numberOfAtoms": 3,
+  "crystal_atoms": {
+    "x_positions": [
+     0.83463633,
+     -0.83463633,
+     2.50390898
+
+    ],
+    "y_positions": [
+      1.44563252,
+      2.40938754,
+      0.48187751
+    ],
+    "z_positions": [
+      0.00000000,
+      -1.57859372,
+      1.57859372
+    ],
+    "atom_names": [
+      "V",
+      "Se",
+      "Se"
+    ]
+  },
+  "calculationFactoryName": "quantumespresso.pw",
+  "code_name": "QE6@hpcweek",
+  "pseudo_family_name": "SSSP",
+  "element_name": "VSe2",
+  "isMaterial3d": false,
+  "spinCombinationLabels": [
+    "a",
+    "b",
+    "c",
+    "d"
+  ],
+  "noOfSuperCells": 4,
+  "similarCalcThreshold": 0.1,
+  "jijThreshold": 0.00001,
+  "spinValue": 1,
+  "parameters": {
+    "CONTROL": {
+      "calculation": "scf",
+      "verbosity": "high",
+      "tstress": true,
+      "tprnfor": true
+    },
+    "SYSTEM": {
+      "ecutwfc": 40,
+      "ecutrho": 320,
+      "occupations": "smearing",
+      "smearing": "fermi-dirac",
+      "degauss": 0.001
+    },
+    "ELECTRONS": {
+      "conv_thr": 0.0000001,
+      "electron_maxstep": 500,
+      "mixing_beta": 0.1,
+      "mixing_mode": "local-TF"
+
+    }
+  },
+  "compoundElement1": "V",
+  "compoundElement2": "V",
+  "nSpinValue": 2,
+  "type1_mag_value": 1.0,
+  "type2_mag_value": 0.001,
+  "kPointsDict": [
+    16,
+    16,
+    2
+  ],
+  "builder_metadata_label": "PW test",
+  "builder_metadata_description": "My AiiDA calculation of Fe with Quantum ESPRESSO",
+  "builder_metadata_options_resources_machine": 1,
+  "builder_metadata_options_max_wallclock_seconds": 604800, 
+ "chosenElement": "Se",
+  "chosenSite": 1,
+  "nearestNbrLimit": 1
+}

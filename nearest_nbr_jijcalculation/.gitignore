@@ -1,0 +1,12 @@
+../.idea/
+*.log
+*.pyc
+aiida-quantumespresso/
+../.idea/
+.idea/inspectionProfiles/
+*.iml
+.idea/*
+/aiida-quantumespresso/aiida_quantumespresso/calculations/q2r.py
+/.idea/workspace.xml
+/.idea/
+/.idea/workspace.xml
