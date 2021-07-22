@@ -15,7 +15,6 @@ from calculation import calculate_jij
 from equivalentatoms import get_unique_pairs_from_equivalent_sets
 from logger import logger
 
-
 PwCalculation = CalculationFactory(configJson["calculationFactoryName"])
 
 
@@ -37,7 +36,6 @@ def run_exchange_coupling_wf(code, pseudo_family, element):
     spinCombinationArray = [(1, 1), (-1, 1), (1, -1), (-1, -1)]
 
     jijPrevious = 0
-    jijCurrent = 0
     logger.info("-------------------------################ Calucation Intiated for element {} "
                 "################-------------------------".format(element))
 
@@ -64,22 +62,25 @@ def run_exchange_coupling_wf(code, pseudo_family, element):
                     pair[1])
                 superCell = set_tags(superCell, pair, superCellNum)
                 scfInput = generate_scf_input_params(superCell, code, pseudo_family, spinValue[0], spinValue[1],
-                                                     superCellNum,configJson["isMaterial3d"])
+                                                     superCellNum, configJson["isMaterial3d"])
                 logger.info(
                     'Running a scf for element {} with super cell number {} and pair {} with spin label : {} and spin values {}:'.format(
                         element, superCellNum, [x + 1 for x in pair], spinCombinationLabel, spinValue))
 
                 calculations[calc_unique_key] = run(PwCalculation, **scfInput)
-                logger.info('Result for unique key {}  is  :{}'.format(calc_unique_key, calculations[calc_unique_key]['output_parameters']))
-                logger.info('energy for unique key {}  is  :{}'.format(calc_unique_key, calculations[calc_unique_key]['output_parameters'].dict.energy))
-                logger.info('energy for unique key {}  is  :{}'.format(calc_unique_key, calculations[calc_unique_key]['output_parameters'].dict.volume))
-                logger.info('energy for unique key {}  is  :{}'.format(calc_unique_key, calculations[calc_unique_key]['output_parameters'].dict.energy_units))
-
-                print(calculations[calc_unique_key]['output_parameters'])
+                logger.info('Result for unique key {}  is  :{}'.format(calc_unique_key, calculations[calc_unique_key][
+                    'output_parameters']))
+                logger.info('energy for unique key {}  is  :{}'.format(calc_unique_key, calculations[calc_unique_key][
+                    'output_parameters'].dict.energy))
+                logger.info('energy for unique key {}  is  :{}'.format(calc_unique_key, calculations[calc_unique_key][
+                    'output_parameters'].dict.volume))
+                logger.info('energy for unique key {}  is  :{}'.format(calc_unique_key, calculations[calc_unique_key][
+                    'output_parameters'].dict.energy_units))
 
             jijCurrent = calculate_jij(calculations, superCellNum, pair)
 
-            print("jijvalue for Supercell number", jijCurrent, superCellNum)
+            logger.info('jijcurrent : {} for Supercell number {} with prv jij: {}'.format(jijCurrent, superCellNum,
+                                                                                          jijPrevious))
             if abs(jijCurrent - jijPrevious) <= configJson['jijThreshold']:
                 logger.info('JIJ converged for super cell {} and pair {}  '.format(superCellNum, [x + 1 for x in pair]))
                 break

@@ -38,7 +38,7 @@
     "d"
   ],
   "noOfSuperCells": 4,
-  "similarCalcThreshold": 0.1,
+  "similarCalcThreshold": 0.01,
   "jijThreshold": 0.00001,
   "spinValue": 1,
   "parameters": {

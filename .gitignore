@@ -127,5 +127,3 @@ dmypy.json
 
 # Pyre type checker
 .pyre/
-
-nearest_nbr_jijcalculation/
