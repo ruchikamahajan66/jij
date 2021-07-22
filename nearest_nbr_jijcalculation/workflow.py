@@ -30,6 +30,8 @@ def create_exchange_coupling_dictionary(**kwargs):
 @workfunction
 def run_exchange_coupling_wf(code, pseudo_family, element):
     print('Running run_exchange_coupling_wf<{}>'.format(Process.current().pid))
+    logger.info('Running run_exchange_coupling_wf<{}>'.format(Process.current().pid))
+
     calculations = {}
     structure = create_structure()
     structure.store()
@@ -72,9 +74,9 @@ def run_exchange_coupling_wf(code, pseudo_family, element):
                     'output_parameters']))
                 logger.info('energy for unique key {}  is  :{}'.format(calc_unique_key, calculations[calc_unique_key][
                     'output_parameters'].dict.energy))
-                logger.info('energy for unique key {}  is  :{}'.format(calc_unique_key, calculations[calc_unique_key][
+                logger.info('volume for unique key {}  is  :{}'.format(calc_unique_key, calculations[calc_unique_key][
                     'output_parameters'].dict.volume))
-                logger.info('energy for unique key {}  is  :{}'.format(calc_unique_key, calculations[calc_unique_key][
+                logger.info('energy units for unique key {}  is  :{}'.format(calc_unique_key, calculations[calc_unique_key][
                     'output_parameters'].dict.energy_units))
 
             jijCurrent = calculate_jij(calculations, superCellNum, pair)
