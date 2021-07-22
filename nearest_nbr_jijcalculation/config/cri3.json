@@ -90,8 +90,8 @@
     },
     "ELECTRONS": {
       "conv_thr": 0.0000001,
-      "mixing_beta": 0.3000000
-      "electron_maxstep": 500,
+      "mixing_beta": 0.3000000,
+      "electron_maxstep": 500
     }
   },
   "compoundElement1": "Cr",
