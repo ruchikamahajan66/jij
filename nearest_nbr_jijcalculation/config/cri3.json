@@ -105,7 +105,7 @@
     1
   ],
   "builder_metadata_label": "PW test",
-  "builder_metadata_description": "My AiiDA calculation of Fe with Quantum ESPRESSO",
+  "builder_metadata_description": "My AiiDA calculation of CrI3 with Quantum ESPRESSO",
   "builder_metadata_options_resources_machine": 1,
   "builder_metadata_options_max_wallclock_seconds": 604800,
   "chosenElement": "Cr",
