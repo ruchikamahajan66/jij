@@ -40,24 +40,23 @@ def run_exchange_coupling_wf(code, pseudo_family, element):
     jijPrevious = 0
     logger.info("-------------------------################ Calucation Intiated for element {} "
                 "################-------------------------".format(element))
-
+    pairs = []
     for superCellNum in range(1, configJson["noOfSuperCells"] + 1):
         superCell = create_super_cell(structure, superCellNum, configJson["isMaterial3d"])
         logger.info("-------------------------################ SUPERCELL No is Selected {} "
                     "################-------------------------".format(superCellNum))
-        pairs = get_neighbours(superCell, superCellNum)
+        if not pairs:
+            pairs = get_neighbours(superCell, superCellNum)
 
         if not pairs:
             logger.info("Pairs Not Found for supecell Number {} ".format(superCellNum))
             continue
 
-        unique_pairs = get_unique_pairs_from_equivalent_sets(superCell, pairs)
-
-        if not unique_pairs:
+        if not pairs:
             logger.info("No unique pair Found for supecell Number {} ".format(superCellNum))
             continue
 
-        for pair in unique_pairs:
+        for pair in pairs:
 
             for spinCombinationLabel, spinValue in list(zip(configJson["spinCombinationLabels"], spinCombinationArray)):
                 calc_unique_key = spinCombinationLabel + "_" + str(superCellNum) + "_" + str(pair[0]) + "_" + str(
