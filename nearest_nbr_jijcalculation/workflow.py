@@ -61,7 +61,7 @@ def run_exchange_coupling_wf(code, pseudo_family, element):
             for spinCombinationLabel, spinValue in list(zip(configJson["spinCombinationLabels"], spinCombinationArray)):
                 calc_unique_key = spinCombinationLabel + "_" + str(superCellNum) + "_" + str(pair[0]) + "_" + str(
                     pair[1])
-                superCell = set_tags(superCell, pair, superCellNum)
+                superCell = set_tags(superCell, pair, superCellNum,configJson["isMaterial3d"])
                 scfInput = generate_scf_input_params(superCell, code, pseudo_family, spinValue[0], spinValue[1],
                                                      superCellNum, configJson["isMaterial3d"])
                 logger.info(

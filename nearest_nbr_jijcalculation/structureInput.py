@@ -84,20 +84,24 @@ def get_magnetization(structure, mag1, mag2):
 
 
 def create_super_cell(structure, factor, isMaterial3d):
+
+    superCellStructureASE = structure.get_ase() * [factor, factor, 1]
     if isMaterial3d:
         superCellStructureASE = structure.get_ase() * [factor, factor, factor]
-    else:
-        superCellStructureASE = structure.get_ase() * [factor, factor, 1]
 
     structureDataAiiDA = DataFactory('structure')
     superCellStructureAiiDAObject = structureDataAiiDA(ase=superCellStructureASE)
     return superCellStructureAiiDAObject
 
 
-def set_tags(super_cell_aiida, pair, super_cell_num):
+def set_tags(super_cell_aiida, pair, super_cell_num,isMaterial3d):
     superCellStructureASE = super_cell_aiida.get_ase()
     tags = []
-    for i in range(1, configJson["numberOfAtoms"] * super_cell_num * super_cell_num + 1):
+    max_atoms = configJson["numberOfAtoms"] * super_cell_num * super_cell_num+1;
+    if isMaterial3d:
+        max_atoms = configJson["numberOfAtoms"] * super_cell_num * super_cell_num * super_cell_num + 1
+
+    for i in range(1, max_atoms):
         tags.append(3)
     tags[int(pair[0])] = '1'
     tags[int(pair[1])] = '2'
