@@ -41,52 +41,61 @@ def run_exchange_coupling_wf(code, pseudo_family, element):
     logger.info("-------------------------################ Calucation Intiated for element {} "
                 "################-------------------------".format(element))
     pairs = []
-    for superCellNum in range(1, configJson["noOfSuperCells"] + 1):
-        superCell = create_super_cell(structure, superCellNum, configJson["isMaterial3d"])
-        logger.info("-------------------------################ SUPERCELL No is Selected {} "
-                    "################-------------------------".format(superCellNum))
-        if not pairs:
-            pairs = get_neighbours(superCell, superCellNum)
+    try:
+        for superCellNum in range(1, configJson["noOfSuperCells"] + 1):
+            superCell = create_super_cell(structure, superCellNum, configJson["isMaterial3d"])
+            logger.info("-------------------------################ SUPERCELL No is Selected {} "
+                        "################-------------------------".format(superCellNum))
+            if not pairs:
+                pairs = get_neighbours(superCell, superCellNum)
 
-        if not pairs:
-            logger.info("Pairs Not Found for supecell Number {} ".format(superCellNum))
-            continue
+            if not pairs:
+                logger.info("Pairs Not Found for supecell Number {} ".format(superCellNum))
+                continue
 
-        if not pairs:
-            logger.info("No unique pair Found for supecell Number {} ".format(superCellNum))
-            continue
+            if not pairs:
+                logger.info("No unique pair Found for supecell Number {} ".format(superCellNum))
+                continue
 
-        for pair in pairs:
+            for pair in pairs:
 
-            for spinCombinationLabel, spinValue in list(zip(configJson["spinCombinationLabels"], spinCombinationArray)):
-                calc_unique_key = spinCombinationLabel + "_" + str(superCellNum) + "_" + str(pair[0]) + "_" + str(
-                    pair[1])
-                superCell = set_tags(superCell, pair, superCellNum,configJson["isMaterial3d"])
-                scfInput = generate_scf_input_params(superCell, code, pseudo_family, spinValue[0], spinValue[1],
-                                                     superCellNum, configJson["isMaterial3d"])
-                logger.info(
-                    'Running a scf for element {} with super cell number {} and pair {} with spin label : {} and spin values {}:'.format(
-                        element, superCellNum, [x + 1 for x in pair], spinCombinationLabel, spinValue))
+                for spinCombinationLabel, spinValue in list(
+                        zip(configJson["spinCombinationLabels"], spinCombinationArray)):
+                    calc_unique_key = spinCombinationLabel + "_" + str(superCellNum) + "_" + str(pair[0]) + "_" + str(
+                        pair[1])
+                    superCell = set_tags(superCell, pair, superCellNum, configJson["isMaterial3d"])
+                    scfInput = generate_scf_input_params(superCell, code, pseudo_family, spinValue[0], spinValue[1],
+                                                         superCellNum, configJson["isMaterial3d"])
+                    logger.info(
+                        'Running a scf for element {} with super cell number {} and pair {} with spin label : {} and spin values {}:'.format(
+                            element, superCellNum, [x + 1 for x in pair], spinCombinationLabel, spinValue))
 
-                calculations[calc_unique_key] = run(PwCalculation, **scfInput)
-                logger.info('Result for unique key {}  is  :{}'.format(calc_unique_key, calculations[calc_unique_key][
-                    'output_parameters']))
-                logger.info('energy for unique key {}  is  :{}'.format(calc_unique_key, calculations[calc_unique_key][
-                    'output_parameters'].dict.energy))
-                logger.info('volume for unique key {}  is  :{}'.format(calc_unique_key, calculations[calc_unique_key][
-                    'output_parameters'].dict.volume))
-                logger.info('energy units for unique key {}  is  :{}'.format(calc_unique_key, calculations[calc_unique_key][
-                    'output_parameters'].dict.energy_units))
+                    calculations[calc_unique_key] = run(PwCalculation, **scfInput)
+                    logger.info(
+                        'Result for unique key {}  is  :{}'.format(calc_unique_key, calculations[calc_unique_key][
+                            'output_parameters']))
+                    logger.info(
+                        'energy for unique key {}  is  :{}'.format(calc_unique_key, calculations[calc_unique_key][
+                            'output_parameters'].dict.energy))
+                    logger.info(
+                        'volume for unique key {}  is  :{}'.format(calc_unique_key, calculations[calc_unique_key][
+                            'output_parameters'].dict.volume))
+                    logger.info(
+                        'energy units for unique key {}  is  :{}'.format(calc_unique_key, calculations[calc_unique_key][
+                            'output_parameters'].dict.energy_units))
 
-            jijCurrent = calculate_jij(calculations, superCellNum, pair)
+                jijCurrent = calculate_jij(calculations, superCellNum, pair)
 
-            logger.info('jijcurrent : {} for Supercell number {} with prv jij: {}'.format(jijCurrent, superCellNum,
-                                                                                          jijPrevious))
-            if abs(jijCurrent - jijPrevious) <= configJson['jijThreshold']:
-                logger.info('JIJ converged for super cell {} and pair {}  '.format(superCellNum, [x + 1 for x in pair]))
-                break
-            else:
-                jijPrevious = jijCurrent
+                logger.info('jijcurrent : {} for Supercell number {} with prv jij: {}'.format(jijCurrent, superCellNum,
+                                                                                              jijPrevious))
+                if abs(jijCurrent - jijPrevious) <= configJson['jijThreshold']:
+                    logger.info(
+                        'JIJ converged for super cell {} and pair {}  '.format(superCellNum, [x + 1 for x in pair]))
+                    break
+                else:
+                    jijPrevious = jijCurrent
+    except:
+        logger.info('Error occurred while calculation.')
 
     outputParameterResult = {
         label: result['output_parameters']
