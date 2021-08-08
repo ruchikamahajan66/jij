@@ -73,7 +73,7 @@ def run_exchange_coupling_wf(code, pseudo_family, element):
                     logger.info(
                         "Calculation being loaded from db for supercell : {} and spin label : {}".format(superCellNum,
                                                                                                          spinCombinationLabel))
-                    calculations[calc_unique_key] = load_calc_data(configJson['resumeWorkflow'].spinCombinationLabel)
+                    calculations[calc_unique_key] = load_calc_data(configJson['resumeWorkflow'][spinCombinationLabel])
                 else:
                     calculations[calc_unique_key] = run(PwCalculation, **scfInput)
                 output_dict = calculations[calc_unique_key]['output_parameters'].dict
@@ -112,8 +112,9 @@ def run_exchange_coupling_wf(code, pseudo_family, element):
 def load_calc_data(pk):
     from aiida.orm import load_node
     calc = load_node(pk)
-    logger.info("pk".format(pk))
-    logger.info(pk, calc.res.energy, calc.res.volume, calc.res.energy_units)
+    logger.info("pk: {} ".format(pk))
+    logger.info(" res: {}", list(calc.res))
+    logger.info(" energy: {}", calc.res.energy)
     return {
         'output_parameters': {
             "dict": {
