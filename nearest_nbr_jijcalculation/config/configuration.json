@@ -110,6 +110,7 @@
   "chosenElement": "Cr",
   "chosenSite": 2,
   "nearestNbrLimit": 2,
+  "process_tag": "process_tag",
   "resumeWorkflow": {
     "supercell": 3,
     "a": 123,
