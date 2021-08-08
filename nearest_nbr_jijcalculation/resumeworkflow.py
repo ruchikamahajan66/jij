@@ -37,7 +37,7 @@ def run_exchange_coupling_wf(code, pseudo_family, element):
     structure.store()
     spinCombinationArray = [(1, 1), (-1, 1), (1, -1), (-1, -1)]
 
-    jijPrevious = 0
+    jijPrevious = configJson['resumeWorkflow']['jij_prv']
     logger.info("-------------------------################ Calucation Intiated for element {} "
                 "################-------------------------".format(element))
     pairs = []
@@ -53,6 +53,8 @@ def run_exchange_coupling_wf(code, pseudo_family, element):
                 logger.info("Pairs Not Found for supecell Number {} ".format(superCellNum))
                 continue
 
+            if superCellNum < configJson['resumeWorkflow']['supercell']:
+                continue
             pair = pairs[0]
 
             for spinCombinationLabel, spinValue in list(
@@ -62,12 +64,17 @@ def run_exchange_coupling_wf(code, pseudo_family, element):
                 superCell = set_tags(superCell, pair, superCellNum, configJson["isMaterial3d"])
                 scfInput = generate_scf_input_params(superCell, code, pseudo_family, spinValue[0], spinValue[1],
                                                      superCellNum, configJson["isMaterial3d"])
-                logger.info('Running a scf for element {} with super cell number {} and pair {} with spin label : {} and spin values {}:'.format(
+                logger.info(
+                    'Running a scf for element {} with super cell number {} and pair {} with spin label : {} and spin values {}:'.format(
                         element, superCellNum, [x + 1 for x in pair], spinCombinationLabel, spinValue))
-
+                if configJson['resumeWorkflow'][spinCombinationLabel]:
+                    calculations[calc_unique_key] = load_calc_data(configJson['resumeWorkflow'][spinCombinationLabel])
                 calculations[calc_unique_key] = run(PwCalculation, **scfInput)
                 output_dict = calculations[calc_unique_key]['output_parameters'].dict
-                logger.info('Unique key {}  is  energy :{}, volume: {}, energy_units: {} '.format(calc_unique_key,output_dict.energy,output_dict.volume,output_dict.energy_units))
+                logger.info('Unique key {}  is  energy :{}, volume: {}, energy_units: {} '.format(calc_unique_key,
+                                                                                                  output_dict.energy,
+                                                                                                  output_dict.volume,
+                                                                                                  output_dict.energy_units))
 
             jijCurrent = calculate_jij(calculations, superCellNum, pair)
 
@@ -95,6 +102,18 @@ def run_exchange_coupling_wf(code, pseudo_family, element):
                 "################-------------------------".format(element))
     return result
 
+
+def load_calc_data(pk):
+    from aiida.orm import load_node
+    calc = load_node(pk)
+
+    return {
+        'output_parameters':{
+           'energy': calc.res.energy,
+           'volume': calc.res.volume,
+           'energy_units': calc.res.energy_units
+        }
+    }
 
 def run_exchange_coupling(code=load_code(configJson["code_name"]), pseudo_family=configJson["pseudo_family_name"],
                           element=configJson["element_name"]):
