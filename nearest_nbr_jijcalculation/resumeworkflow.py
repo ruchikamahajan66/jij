@@ -76,6 +76,7 @@ def run_exchange_coupling_wf(code, pseudo_family, element):
                     calculations[calc_unique_key] = load_calc_data(configJson['resumeWorkflow'][spinCombinationLabel])
                 else:
                     calculations[calc_unique_key] = run(PwCalculation, **scfInput)
+
                 output_dict = calculations[calc_unique_key]['output_parameters'].dict
                 logger.info('Unique key {}  is  energy :{}, volume: {}, energy_units: {} '.format(calc_unique_key,
                                                                                                   output_dict.energy,
@@ -115,16 +116,12 @@ def load_calc_data(pk):
     logger.info("pk: {} ".format(pk))
     logger.info(" res: {}".format(list(calc.res)))
     logger.info(" energy: {}".format(calc.res.energy))
-    return {
-        'output_parameters': {
-            "dict": {
-                'energy': calc.res.energy,
-                'volume': calc.res.volume,
-                'energy_units': calc.res.energy_units
-            }
-        }
+    data = {
+        'energy': calc.res.energy,
+        'volume': calc.res.volume,
+        'energy_units': calc.res.energy_units
     }
-
+    return Dict(dict={'output_parameters': data})
 
 def run_exchange_coupling(code=load_code(configJson["code_name"]), pseudo_family=configJson["pseudo_family_name"],
                           element=configJson["element_name"]):
