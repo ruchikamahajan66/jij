@@ -68,13 +68,13 @@ def run_exchange_coupling_wf(code, pseudo_family, element):
             logger.info(
                 'Running a scf for element {} with super cell number {} and pair {} with spin label : {} and spin values {}:'.format(
                     element, superCellNum, [x + 1 for x in pair], spinCombinationLabel, spinValue))
-            if configJson['resumeWorkflow'][spinCombinationLabel]:
+            if not configJson['resumeWorkflow'][spinCombinationLabel]:
+                calculations[calc_unique_key] = run(PwCalculation, **scfInput)
+            else:
                 logger.info(
                     "Calculation being loaded from db for supercell : {} and spin label : {}".format(superCellNum,
                                                                                                      spinCombinationLabel))
                 calculations[calc_unique_key] = load_calc_data(configJson['resumeWorkflow'][spinCombinationLabel])
-            else:
-                calculations[calc_unique_key] = run(PwCalculation, **scfInput)
 
             output_dict = calculations[calc_unique_key]['output_parameters'].dict
             logger.info('Unique key {}  is  energy :{}, volume: {}, energy_units: {} '.format(calc_unique_key,
@@ -121,8 +121,9 @@ def load_calc_data(pk):
     dict_data = Dict(dict=data)
 
     return {
-        "output_parameters":dict_data
+        "output_parameters": dict_data
     }
+
 
 def run_exchange_coupling(code=load_code(configJson["code_name"]), pseudo_family=configJson["pseudo_family_name"],
                           element=configJson["element_name"]):
