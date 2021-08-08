@@ -115,14 +115,11 @@ def load_calc_data(pk):
 
     return {
         'output_parameters': {
-            {
-                "dict": {
-                    'energy': calc.res.energy,
-                    'volume': calc.res.volume,
-                    'energy_units': calc.res.energy_units
-                }
+            "dict": {
+                'energy': calc.res.energy,
+                'volume': calc.res.volume,
+                'energy_units': calc.res.energy_units
             }
-
         }
     }
 
