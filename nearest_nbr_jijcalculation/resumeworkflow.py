@@ -121,7 +121,11 @@ def load_calc_data(pk):
         'volume': calc.res.volume,
         'energy_units': calc.res.energy_units
     }
-    return Dict(dict={'output_parameters': data})
+    dict_data = Dict(dict=data)
+
+    return {
+        "output_parameters":dict_data
+    }
 
 def run_exchange_coupling(code=load_code(configJson["code_name"]), pseudo_family=configJson["pseudo_family_name"],
                           element=configJson["element_name"]):
