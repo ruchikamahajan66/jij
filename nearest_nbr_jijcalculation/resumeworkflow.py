@@ -73,7 +73,7 @@ def run_exchange_coupling_wf(code, pseudo_family, element):
                     logger.info(
                         "Calculation being loaded from db for supercell : {} and spin label : {}".format(superCellNum,
                                                                                                          spinCombinationLabel))
-                    calculations[calc_unique_key] = load_calc_data(configJson['resumeWorkflow'][spinCombinationLabel])
+                    calculations[calc_unique_key] = load_calc_data(configJson['resumeWorkflow'].spinCombinationLabel)
                 else:
                     calculations[calc_unique_key] = run(PwCalculation, **scfInput)
                 output_dict = calculations[calc_unique_key]['output_parameters'].dict
