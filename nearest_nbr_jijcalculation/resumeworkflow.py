@@ -113,8 +113,8 @@ def load_calc_data(pk):
     from aiida.orm import load_node
     calc = load_node(pk)
     logger.info("pk: {} ".format(pk))
-    logger.info(" res: {}", list(calc.res))
-    logger.info(" energy: {}", calc.res.energy)
+    logger.info(" res: {}".format(list(calc.res)))
+    logger.info(" energy: {}".format(calc.res.energy))
     return {
         'output_parameters': {
             "dict": {
