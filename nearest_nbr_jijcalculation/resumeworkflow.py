@@ -112,15 +112,17 @@ def run_exchange_coupling_wf(code, pseudo_family, element):
 def load_calc_data(pk):
     from aiida.orm import load_node
     calc = load_node(pk)
-    logger.info("pk == ".format(pk))
+    logger.info("pk".format(pk))
     logger.info(pk, calc.res.energy, calc.res.volume, calc.res.energy_units)
     return {
+        'output_parameters': {
             "dict": {
                 'energy': calc.res.energy,
                 'volume': calc.res.volume,
                 'energy_units': calc.res.energy_units
             }
         }
+    }
 
 
 def run_exchange_coupling(code=load_code(configJson["code_name"]), pseudo_family=configJson["pseudo_family_name"],
