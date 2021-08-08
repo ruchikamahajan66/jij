@@ -54,6 +54,8 @@ def run_exchange_coupling_wf(code, pseudo_family, element):
                 continue
 
             if superCellNum < configJson['resumeWorkflow']['supercell']:
+                logger.info(
+                    "Calculation being skipped for  supercell : {} ".format(superCellNum))
                 continue
             pair = pairs[0]
 
@@ -68,6 +70,7 @@ def run_exchange_coupling_wf(code, pseudo_family, element):
                     'Running a scf for element {} with super cell number {} and pair {} with spin label : {} and spin values {}:'.format(
                         element, superCellNum, [x + 1 for x in pair], spinCombinationLabel, spinValue))
                 if configJson['resumeWorkflow'][spinCombinationLabel]:
+                    logger.info("Calculation being loaded from db for supercell : {} and spin label : {}".format(superCellNum, spinCombinationLabel))
                     calculations[calc_unique_key] = load_calc_data(configJson['resumeWorkflow'][spinCombinationLabel])
                 calculations[calc_unique_key] = run(PwCalculation, **scfInput)
                 output_dict = calculations[calc_unique_key]['output_parameters'].dict
