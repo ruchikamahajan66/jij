@@ -70,7 +70,7 @@ def run_exchange_coupling_wf(code, pseudo_family, element):
                 logger.info(
                     'Running a scf for element {} with super cell number {} and pair {} with spin label : {} and spin values {}:'.format(
                         element, superCellNum, [x + 1 for x in pair], spinCombinationLabel, spinValue))
-                if spinCombinationLabel in configJson['resumeWorkflow'].keys():
+                if superCellNum == configJson['resumeWorkflow']['supercell'] and spinCombinationLabel in configJson['resumeWorkflow'].keys():
                     logger.info(
                         "Calculation being loaded from db for supercell : {} and spin label : {}".format(superCellNum,
                                                                                                          spinCombinationLabel))
