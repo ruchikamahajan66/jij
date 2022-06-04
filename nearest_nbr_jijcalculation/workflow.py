@@ -4,9 +4,11 @@ from __future__ import absolute_import
 from __future__ import print_function
 
 from aiida.engine import run, Process, calcfunction, workfunction
-from aiida.orm import Dict, Str
+from aiida.orm import Dict, Str, load_code
 from aiida.plugins import CalculationFactory
+from pymatgen.io import aiida
 from six.moves import zip
+from aiida import load_profile
 
 from configuration import configJson
 from neighbourCalculation import get_neighbours
@@ -14,6 +16,8 @@ from structureInput import create_structure, generate_scf_input_params, create_s
 from calculation import calculate_jij
 from equivalentatoms import get_unique_pairs_from_equivalent_sets
 from logger import logger
+
+load_profile()
 
 PwCalculation = CalculationFactory(configJson["calculationFactoryName"])
 
