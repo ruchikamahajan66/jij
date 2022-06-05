@@ -60,6 +60,40 @@
       "I"
     ]
   },
+"afm_spins": [
+  {
+    "atom": "Cr",
+    "spin": 1
+  },
+  {
+    "atom": "Cr",
+    "spin": -1
+  },
+  {
+    "atom": "I",
+    "spin": 0
+  },
+  {
+    "atom": "I",
+    "spin": 0
+  },
+  {
+    "atom": "I",
+    "spin": 0
+  },
+  {
+    "atom": "I",
+    "spin": 0
+  },
+  {
+    "atom": "I",
+    "spin": 0
+  },
+  {
+    "atom": "I",
+    "spin": 0
+  }
+],
   "calculationFactoryName": "quantumespresso.pw",
   "code_name": "QE6@hpcweek",
   "pseudo_family_name": "SSSP",

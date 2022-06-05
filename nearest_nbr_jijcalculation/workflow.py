@@ -83,8 +83,8 @@ def run_exchange_coupling_wf(code, pseudo_family, element):
                 break
             else:
                 jijPrevious = jijCurrent
-    except:
-        logger.info('Error occurred while calculation.')
+    except Exception as e :
+        logger.info('Error occurred while calculation.'+ str(e))
 
     outputParameterResult = {
         label: result['output_parameters']

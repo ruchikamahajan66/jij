@@ -71,15 +71,26 @@ def generate_scf_input_params(structure, code, pseudo_family, mag1, mag2, super_
 def get_magnetization(structure, mag1, mag2):
     start_mag = {}
     for i in structure.kinds:
-        if i.name.endswith("1"):
-            start_mag[i.name] = mag1
-        elif i.name.endswith("2"):
-            start_mag[i.name] = mag2
-        elif i.name == configJson["compoundElement1"] + "3":
-            start_mag[i.name] = configJson["type1_mag_value"]
+        if "afm_spins" in configJson.keys():
+            if i.name.endswith("1"):
+                start_mag[i.name] = mag1
+            elif i.name.endswith("2"):
+                start_mag[i.name] = mag2
+            elif i.name.endswith("3"):
+                start_mag[i.name] = 1
+            elif i.name.endswith("4"):
+                start_mag[i.name] = -1
+            else:
+                start_mag[i.name] = 0
         else:
-            start_mag[i.name] = configJson["type2_mag_value"]
-
+            if i.name.endswith("1"):
+                start_mag[i.name] = mag1
+            elif i.name.endswith("2"):
+                start_mag[i.name] = mag2
+            elif i.name == configJson["compoundElement1"] + "3":
+                start_mag[i.name] = configJson["type1_mag_value"]
+            else:
+                start_mag[i.name] = configJson["type2_mag_value"]
     return start_mag
 
 
@@ -97,14 +108,25 @@ def create_super_cell(structure, factor, isMaterial3d):
 def set_tags(super_cell_aiida, pair, super_cell_num,isMaterial3d):
     superCellStructureASE = super_cell_aiida.get_ase()
     tags = []
-    max_atoms = configJson["numberOfAtoms"] * super_cell_num * super_cell_num+1;
+    max_atoms = configJson["numberOfAtoms"] * super_cell_num * super_cell_num+1
     if isMaterial3d:
         max_atoms = configJson["numberOfAtoms"] * super_cell_num * super_cell_num * super_cell_num + 1
+    if "afm_spins" in configJson.keys():
+        crystal_unit_size = len(configJson["afm_spins"])
+        for i in range(1, max_atoms):
+            if configJson["afm_spins"][(i-1)%crystal_unit_size]["atom"] == configJson['chosenElement']and configJson["afm_spins"][(i-1)%crystal_unit_size]["spin"] == 1:
+                tags.append(3)
+            elif configJson["afm_spins"][(i-1) % crystal_unit_size]["atom"] == configJson['chosenElement']and configJson["afm_spins"][(i-1)%crystal_unit_size]["spin"] == -1:
+                tags.append(4)
+            else:
+                tags.append(5)
+    else:
+        for i in range(1, max_atoms):
+            tags.append(3)
 
-    for i in range(1, max_atoms):
-        tags.append(3)
     tags[int(pair[0])] = '1'
     tags[int(pair[1])] = '2'
+
     superCellStructureASE.set_tags(tags)
     structureDataAiiDA = DataFactory('structure')
     superCellStructureAiiDAObject = structureDataAiiDA(ase=superCellStructureASE)
