@@ -1,0 +1,138 @@
+{
+  "crystal_vectors": [
+    [
+      4.390530126,
+      0.000000012,
+      0.000000000
+    ],
+    [
+      0.000000012,
+      4.390530126,
+      0.000000000
+    ],
+    [
+      0.000000000,
+      0.000000000,
+      2.923066942
+    ]
+  ],
+  "numberOfAtoms": 6,
+  "isMaterial3d": true,
+  "crystal_atoms": {
+    "x_positions": [
+      0.0000000000,
+      2.1952650695,
+      1.3435182549,
+      0.8517468266,
+      3.0470120001,
+      3.5387831941
+    ],
+    "y_positions": [
+      0.0000000000,
+      2.1952650695,
+      1.3435182549,
+      3.5387831941,
+      3.0470120001,
+      0.8517468266
+    ],
+    "z_positions": [
+      0.0000000000,
+      1.4615335079,
+      0.0000000000,
+      1.4615335079,
+      0.0000000000,
+      1.4615335079
+    ],
+    "atom_names": [
+      "Mn",
+      "Mn",
+      "O",
+      "O",
+      "O",
+      "O"
+    ]
+  },
+"afm_spins": [
+  {
+    "atom": "Mn",
+    "spin": 1
+  },
+  {
+    "atom": "Mn",
+    "spin": -1
+  },
+  {
+    "atom": "O",
+    "spin": 0
+  },
+  {
+    "atom": "O",
+    "spin": 0
+  },
+  {
+    "atom": "O",
+    "spin": 0
+  },
+  {
+    "atom": "O",
+    "spin": 0
+  }
+],
+  "calculationFactoryName": "quantumespresso.pw",
+  "code_name": "QE6@hpcweek",
+  "pseudo_family_name": "SSSP",
+  "element_name": "MnO2",
+  "spinCombinationLabels": [
+    "a",
+    "b",
+    "c",
+    "d"
+  ],
+  "noOfSuperCells": 5,
+  "similarCalcThreshold": 0.01,
+  "jijThreshold": 0.01,
+  "spinValue": 1.5,
+  "parameters": {
+    "CONTROL": {
+      "calculation": "scf",
+      "verbosity": "high",
+      "tstress": true,
+      "tprnfor": true
+    },
+    "SYSTEM": {
+      "ecutwfc": 90,
+      "ecutrho": 1080,
+      "occupations": "smearing",
+      "smearing": "gauss",
+      "degauss": 0.001
+    },
+    "ELECTRONS": {
+      "conv_thr": 0.0000000001,
+      "mixing_beta": 0.4000000
+    }
+  },
+  "compoundElement1": "Mn",
+  "compoundElement2": "O",
+  "nSpinValue": 2,
+  "type1_mag_value": 1.0,
+  "type2_mag_value": 0.001,
+  "kPointsDict": [
+    12,
+    12,
+    16
+  ],
+  "builder_metadata_label": "PW test",
+  "builder_metadata_description": "My AiiDA calculation of MnO2 with Quantum ESPRESSO",
+  "builder_metadata_options_resources_machine": 1,
+  "builder_metadata_options_max_wallclock_seconds": 604800,
+  "chosenElement": "Mn",
+  "chosenSite": 1,
+  "nearestNbrLimit": 1,
+  "process_tag": "process_tag",
+  "resumeWorkflow": {
+    "supercell": 3,
+    "a": 123,
+    "b": 124,
+    "jij_prv": -0.0001
+  }
+}

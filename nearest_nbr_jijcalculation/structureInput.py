@@ -94,11 +94,11 @@ def get_magnetization(structure, mag1, mag2):
     return start_mag
 
 
-def create_super_cell(structure, factor, isMaterial3d):
+def create_super_cell(structure, multiplier, isMaterial3d):
 
-    superCellStructureASE = structure.get_ase() * [factor, factor, 1]
+    superCellStructureASE = structure.get_ase() * [multiplier[0], multiplier[1], 1]
     if isMaterial3d:
-        superCellStructureASE = structure.get_ase() * [factor, factor, factor]
+        superCellStructureASE = structure.get_ase() * [multiplier[0], multiplier[1], multiplier[2]]
 
     structureDataAiiDA = DataFactory('structure')
     superCellStructureAiiDAObject = structureDataAiiDA(ase=superCellStructureASE)

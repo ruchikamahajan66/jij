@@ -1,5 +1,5 @@
 import json
 
 configJson = {}
-with open('config/configuration.json', 'r') as f:
+with open('config/MnO2_AFM_U.json', 'r') as f:
     configJson = json.load(f)
